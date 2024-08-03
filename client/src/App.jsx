@@ -40,7 +40,7 @@ function App() {
     <ApolloProvider client={client}>
       <Navbar />
       <Outlet />
-		</ApolloProvider>
+	</ApolloProvider>
   );
 }
 
