@@ -1,7 +1,10 @@
+//gives grapghql specific errors
 const { GraphQLError } = require('graphql');
+
+//for creating and verifying tokens
 const jwt = require('jsonwebtoken');
 
-// set token secret and expiration date
+//set token secret and expiration date
 const secret = 'mysecretsshhhhh';
 const expiration = '2h';
 
@@ -12,27 +15,29 @@ module.exports = {
 				code: 'UNAUTHENTICATED',
 	    },
 		}),
-  // function for our authenticated routes
+        
+  //extracts, verifies, and attaches the token.
   authMiddleware: function ({ req }) {
 		let token = req.body.token || req.query.token || req.headers.authorization;
 
     if (req.headers.authorization) {
       token = token.split(' ').pop().trim();
     }
-
     if (!token) {
       return req;
     }
 
     try {
-      const { data } = jwt.verify(token, secret, { maxAge: expiration });
+      const { data } = jwt.verify(token, secret);
       req.user = data;
     } catch {
       console.log('Invalid token');
     }
-
-		return req;
+    
+    return req;
   },
+
+  //creates new token
   signToken: function ({ username, email, _id }) {
     const payload = { username, email, _id };
     return jwt.sign({ data: payload }, secret, { expiresIn: expiration });

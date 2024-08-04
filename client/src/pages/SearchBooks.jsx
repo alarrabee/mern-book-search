@@ -23,7 +23,7 @@ const SearchBooks = () => {
   // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
   useEffect(() => {
     return () => saveBookIds(savedBookIds);
-  });
+  }, [savedBookIds]);  //*** */
 
   // create method to search for books and set state on form submit
   const handleFormSubmit = async (event) => {
@@ -70,9 +70,9 @@ const SearchBooks = () => {
     }
 
     try {
-      await saveBook({ variables: {input: bookToSave }});
-
-      if (!response.ok) {
+    //   await saveBook({ variables: {input: bookToSave }}); //*** */
+        const { data } = await saveBook(({ variables: { book: bookToSave } }));
+      if (!data) {
         throw new Error('something went wrong!');
       }
 
