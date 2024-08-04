@@ -1,10 +1,10 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import { Container, Card, Button, Row, Col } from 'react-bootstrap';
 
 // import { getMe, deleteBook } from '../utils/API';
 import { useQuery, useMutation } from '@apollo/client';
 import { GET_ME } from '../utils/queries';
-import { DELETE_BOOK } from '../utils/mutations';
+import { REMOVE_BOOK } from '../utils/mutations';
 
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
@@ -12,7 +12,7 @@ import { removeBookId } from '../utils/localStorage';
 
 const SavedBooks = () => {
     const { loading, data } = useQuery(GET_ME);
-    const [deleteBook] = useMutation(DELETE_BOOK);
+    const [removeBook] = useMutation(REMOVE_BOOK);
     const userData = data?.me || {};
 //   const [userData, setUserData] = useState({});
 
@@ -53,7 +53,7 @@ const SavedBooks = () => {
     }
 
     try {
-        await deleteBook({ variables: { bookId }});
+        await removeBook({ variables: { bookId }});
     //   const response = await deleteBook(bookId, token);
 
     //   if (!response.ok) {
@@ -71,9 +71,9 @@ const SavedBooks = () => {
 
   // if data isn't here yet, say so
 //   if (!userDataLength) {
-if (loading) {
-    return <h2>LOADING...</h2>;
-  }
+    if (loading) {
+        return <h2>LOADING...</h2>;
+    }
 
   return (
     <>
