@@ -30,25 +30,6 @@ const LoginForm = () => {
       event.stopPropagation();
     }
 
-//     try {
-//         // const { data } = await login({
-//         //     variables: {...userFormData},
-//         // });
-//         const { data } = await login({
-//             variables: { email: userFormData.email, password: userFormData.password },
-//           });
-//       Auth.login(data.login.token);
-//     } catch (err) {
-//       console.error(err);
-//       setShowAlert(true);
-//     }
-
-//     setUserFormData({
-//       username: '',
-//       email: '',
-//       password: '',
-//     });
-//   };
 try {
     // Execute the login mutation
     const { data } = await login({
