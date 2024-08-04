@@ -30,22 +30,42 @@ const LoginForm = () => {
       event.stopPropagation();
     }
 
-    try {
-        const { data } = await login({
-            variables: {...userFormData},
-        });
-      Auth.login(data.login.token);
-    } catch (err) {
-      console.error(err);
-      setShowAlert(true);
-    }
+//     try {
+//         // const { data } = await login({
+//         //     variables: {...userFormData},
+//         // });
+//         const { data } = await login({
+//             variables: { email: userFormData.email, password: userFormData.password },
+//           });
+//       Auth.login(data.login.token);
+//     } catch (err) {
+//       console.error(err);
+//       setShowAlert(true);
+//     }
 
+//     setUserFormData({
+//       username: '',
+//       email: '',
+//       password: '',
+//     });
+//   };
+try {
+    // Execute the login mutation
+    const { data } = await login({
+      variables: { email: userFormData.email, password: userFormData.password },
+    });
+    // Handle successful login
+    Auth.login(data.login.token); // Store token and redirect user
     setUserFormData({
-      username: '',
       email: '',
       password: '',
     });
-  };
+  } catch (err) {
+    // Handle errors
+    console.error('Login error:', err);
+    setShowAlert(true); // Show error message
+  }
+};
 
   return (
     <>
@@ -56,7 +76,7 @@ const LoginForm = () => {
         <Form.Group className='mb-3'>
           <Form.Label htmlFor='email'>Email</Form.Label>
           <Form.Control
-            type='text'
+            type='email'
             placeholder='Your email'
             name='email'
             onChange={handleInputChange}
